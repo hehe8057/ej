@@ -46,6 +46,7 @@
 		var realname = $("#customer_form input[name=username]").val();
 		var password = $("#customer_form input[name=password]").val();
 		var telephone = $("#customer_form input[name=telephone]").val();
+		var status = $("#customer_form input[name=status]").val();
 		// 2. 与后台交互	
 		var url = baseURL+"/customer/saveOrUpdate";
 		var data;
@@ -54,14 +55,16 @@
             	id:myId,
             	realname:realname,
             	password:password,
-            	telephone:telephone
+            	telephone:telephone,
+            	status:status
             }
             myId='';
         }else{
             data = {
             	realname:realname,
             	password:password,
-            	telephone:telephone
+            	telephone:telephone,
+            	status:status
             }
         }
 		$.post(url,data,function(result){
@@ -146,11 +149,13 @@
 		        var  realname = $(this).parents("tr").find("td:nth-child(2)").text();
 		        var  telephone = $(this).parents("tr").find("td:nth-child(3)").text();
 		        var  password = $(this).parents("tr").find("td:nth-child(4)").text();
+		        var  status = $(this).parents("tr").find("td:nth-child(5)").text();
 		        $("#customerModal").modal("show");
 		        $("#customer_form input[name=id]").val(myId);
 		        $("#customer_form input[name=username]").val(realname);
 		        $("#customer_form input[name=telephone]").val(telephone);
 		        $("#customer_form input[name=password]").val(password);
+		        $("#customer_form input[name=status]").val(status);
 			    }
 		    }
 	    });
@@ -230,6 +235,13 @@
 				<label for="input_password" class="col-sm-2 text-right">密码</label>
 				<div class="col-sm-10">
 					<input id="input_password" class="form-control" type="password" name="password"/> 
+				</div>
+			</div>
+			<!-- 状态 -->
+			<div class="form-group row">
+				<label for="input_status" class="col-sm-2 text-right">状态</label>
+				<div class="col-sm-10">
+					<input id="input_status" class="form-control" type="status" name="status"/> 
 				</div>
 			</div>
 		</form>

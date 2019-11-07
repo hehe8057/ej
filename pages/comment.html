@@ -22,6 +22,7 @@
 					<td class="text-center">`+item.id+`</td>
 					<td class="text-center">`+item.content+`</td>
 					<td class="text-center">`+item.commentTime+`</td>
+					<td class="text-center">`+item.orderId+`</td>
 					<td class="text-center">
 						<a href="javascript:void(0);" onclick="deleteComment.call(this)" ><i class="iconfont icon-08" style = "color:red;"></i></a>&nbsp;
 						<a href="javascript:void(0);" id="btn-modify" ><i class="iconfont icon-xiugai" ></i></a>
@@ -39,6 +40,7 @@
     	// 1. 获取输入
 		var content = $("#comment_form input[name=content]").val();
 		var commentTime = $("#comment_form input[name=commentTime]").val();
+		var orderId = $("#input_orderId").val();
 		// 2. 与后台交互	
 		var url = baseURL+"/comment/saveOrUpdate";
 		var data;
@@ -46,12 +48,15 @@
             data = {
             	id:myId,
             	content:content,
-            	commentTime:commentTime
+            	commentTime:commentTime,
+            	orderId:orderId
             }
+            myId='';
         }else{
             data = {
             	content:content,
-            	commentTime:commentTime
+            	commentTime:commentTime,
+            	orderId:orderId
             }
         }
 		$.post(url,data,function(result){
@@ -96,6 +101,26 @@
         }
     }
 
+    //查找订单ID
+    function addorderId(){
+		// 设置顾客的findAll请求地址
+		var url_findorderId = baseURL+'/order/findAll';
+		$.get(url_findorderId,function(result){
+			// 将结果遍历，拿到id
+			result.data.forEach(function(item){
+				// 新创建节点，并追加到select中
+				/*
+				*第一个item.id放在value中，是为了根据顾客id查询的时候可以获取到此option的值
+				*第二个item.id放在option中间是为了显示
+				*/
+				var newOption = $(`
+					<option value="`+item.id+`">`+item.id+`</option>
+				`);
+				// 将顾客id追加到模态框的下拉框中
+				$('#input_orderId').append(newOption);
+			})
+		});
+	}
 
     //批量删除
     function batchDelete(){
@@ -122,6 +147,7 @@
 	$(function(){
 		//1.重载数据
 		reloadData();
+		addorderId();
 		// 2. 为添加按钮绑定事件
 		$("#btn_add").click(function(){
 			$("#commentModal").modal("show");
@@ -137,10 +163,12 @@
 		        myId= $(this).parents("tr").find("td:nth-child(2)").text();
 		        var  content  = $(this).parents("tr").find("td:nth-child(3)").text();
 		        var  commentTime = $(this).parents("tr").find("td:nth-child(4)").text();
+		        var  orderId = $(this).parents("tr").find("td:nth-child(5)").text();
 		        $("#commentModal").modal("show");
 		        $("#comment_form input[name=id]").val(myId);
 		        $("#comment_form input[name=content]").val(content);
 		        $("#comment_form input[name=commentTime]").val(commentTime);
+		         $('#input_orderId').val(orderId);
 			    }
 		    }
 	    });
@@ -170,6 +198,7 @@
 				<td>ID</td>
 				<td>内容</td>
 				<td>评论时间</td>
+				<td>订单ID</td>
 				<td width="100">操作</td>
 			</tr>
 		</thead>
@@ -209,6 +238,15 @@
 			 	<div class="col-sm-9">
 			 		<input id="input_commentTime" class="form-control" type="text" name="commentTime"/>
 			 	</div>
+			</div>
+			<!-- 订单ID -->
+			<div class="form-group row">
+				<label for="input_orderId" class="col-sm-3 text-center">订单ID</label>
+				<div class="col-sm-9">
+					<select name="" id="input_orderId" class="form-control">
+						<option value="" style=" display:none;">请选择订单ID</option>
+					</select>
+				</div>
 			</div>
 		<!-- end -->
 	      </div>

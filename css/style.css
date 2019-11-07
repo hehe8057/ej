@@ -11,32 +11,53 @@ html,body,.container-fluid,.content{
 	margin: 0 !important;
 	overflow: hidden;
 }
+.top{
+	font-size: 20px;
+	font-weight: bold;
+	padding: 0.5em;
+	/*background-color: green;*/
+	box-shadow: 5px  5px 5px  #ededed;
+
+}
+.top .col-2{
+	text-align: center;
+	margin: 0 !important;
+}
+.top .col-7{
+	padding: 15px;
+}
+.top .col-3{
+	text-align: center
+}
+.top .col-3>i{
+   font-size: 40px;
+}
 #index{
 	font-size: 20px;
 	font-weight: bold;
-	color: white;
 	height: 60px;
 	line-height: 60px;
-    padding-left: 40px;
+    /*padding-left: 20px;*/
+    text-align: left;
 }
 .icon-jiazhengxitongguanli{
 	font-size: 28px !important;
 	margin-right: 10px;
 }
 .left{
-	background-color: #b3d465;
+	/*background-color: #b3d465;*/
 	margin-right: 0 !important;
 }
 .right{
 	margin: 0 !important;
 	padding-left: 1em !important;	
-	background-color: #ededed;
+
 }
 .left ul > li{
 	text-align: center;
 	height: 50px;
 	line-height: 50px;
-	border-bottom: 1px solid #333;
+	border-bottom: 1px solid #ededed;
 	cursor: pointer;
 	font-size: 18px;
 }

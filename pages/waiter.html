@@ -26,8 +26,8 @@
 					<td class="text-center">`+item.realname+`</td>
 					<td class="text-center">`+item.password+`</td>
 					<td class="text-center">`+item.telephone+`</td>
-					<td class="text-center">`+item.status+`</td>
-					<td class="text-center">`+item.photo+`</td>
+					<td class="text-center">`+item.registerTime+`</td>
+					<td class="text-center">`+item.addressId+`</td>
 					<td class="text-center">
 						<a href="javascript:void(0);" onclick="deleteWaiter.call(this)" ><i class="iconfont icon-08" style = "color:red;"></i></a>&nbsp;
 						<a href="javascript:void(0);" id="btn-modify" ><i class="iconfont icon-xiugai" ></i></a>
@@ -47,6 +47,8 @@
 		var realname = $("#waiter_form input[name=realname]").val();
 		var password = $("#waiter_form input[name=password]").val();
 		var telephone = $("#waiter_form input[name=telephone]").val();
+		var registerTime = $("#waiter_form input[name=registerTime]").val();
+		var addressId = $("#input_addressId").val();
 		// 2. 与后台交互	
 		var url = baseURL+"/waiter/saveOrUpdate";
 		var data;
@@ -56,6 +58,8 @@
             	realname:realname,
             	password:password,
             	telephone:telephone,
+            	registerTime:registerTime,
+            	addressId:addressId
             }
             myId='';
         }else{
@@ -63,6 +67,8 @@
             	realname:realname,
             	password:password,
             	telephone:telephone,
+            	registerTime:registerTime,
+            	addressId:addressId
             }
         }
 		$.post(url,data,function(result){
@@ -105,6 +111,21 @@
           });
         }
     }
+    //查找地址id
+	function addParentId(){
+		// 设置顾客的findAll请求地址
+		var url_findaddressId = baseURL+'/address/findAll';
+		$.get(url_findaddressId,function(result){
+			// 将结果遍历，拿到id
+			result.data.forEach(function(item){
+				var newOption = $(`
+					<option value="`+item.id+`">`+item.id+`</option>
+				`);
+				// 将顾客id追加到模态框的下拉框中
+				$('#input_addressId').append(newOption);
+			})
+		});
+	}
      
     //批量删除
     function batchDelete(){
@@ -132,6 +153,7 @@
 	$(function(){
 		//1.重载数据
 		reloadData();
+		addParentId();
 		// 2. 为添加按钮绑定事件
 		$("#btn_add").click(function(){
 			$("#waiterModal").modal("show");
@@ -149,11 +171,15 @@
 		        var  realname = $(this).parents("tr").find("td:nth-child(2)").text();
 		        var  password = $(this).parents("tr").find("td:nth-child(3)").text();
 		        var  telephone = $(this).parents("tr").find("td:nth-child(4)").text();
+		        var  registerTime = $(this).parents("tr").find("td:nth-child(5)").text();
+		        var  addressId = $(this).parents("tr").find("td:nth-child(6)").text();
 		        $("#waiterModal").modal("show");
 		        $("#waiter_form input[name=id]").val(myId);
 		        $("#waiter_form  input[name=realname]").val(realname);
 		        $("#waiter_form input[name=password]").val(password);
 		        $("#waiter_form input[name=telephone]").val(telephone);
+		        $("#waiter_form input[name=registerTime]").val(registerTime);
+		         $('#input_addressId').val(addressId);
 			    }
 		    }
 	    });
@@ -188,8 +214,8 @@
 				<td>姓名</td>
 				<td>密码</td>
 				<td>联系方式</td>
-				<td>状态</td>
-				<td>照片</td>
+				<td>注册时间</td>
+				<td>地址id</td>
 				<td width="100">操作</td>
 			</tr>
 		</thead>
@@ -237,6 +263,22 @@
 			 	<div class="col-sm-9">
 			 		<input id="input_telephone" class="form-control" type="text" name="telephone"/>
 			 	</div>
+			</div>
+			<!-- 注册时间 -->
+			<div class="form-group row">
+				<label for="input_registerTime" class="col-sm-3 text-center">注册时间</label>
+			 	<div class="col-sm-9">
+			 		<input id="input_registerTime" class="form-control" type="text" name="registerTime"/>
+			 	</div>
+			</div>
+			<!-- 地址id -->
+			<div class="form-group row">
+				<label for="input_addressId" class="col-sm-3 text-center">地址ID</label>
+				<div class="col-sm-9">
+					<select name="" id="input_addressId" class="form-control">
+						<option value="" style=" display:none;">请选择地址ID</option>
+					</select>
+				</div>
 			</div>
 		<!-- end -->
 	      </div>

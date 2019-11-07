@@ -5,7 +5,7 @@
 <script>
 	 var myId;
     //从后台获取地址
-	var baseURL =  "http://182.92.68.38:6677";
+	var baseURL = 'http://182.92.65.38:6677';
 
 	 // 关闭模态框
 	function closeModal(){
@@ -14,7 +14,7 @@
 	}
 
 	// 加载数据
-	function reloadData(){
+     function loadData(){
 		var url = baseURL + "/product/findAll";
 		//用get方式获取后台数据
 		$.get(url,function(result){
@@ -27,7 +27,6 @@
 					<td class="text-center">`+item.description+`</td>
 					<td class="text-center">`+item.price+`</td>
 					<td class="text-center">`+item.status+`</td>
-					<td class="text-center">`+item.photo+`</td>
 					<td class="text-center">`+item.categoryId+`</td>
 					<td class="text-center">
 						<a href="javascript:void(0);" onclick="deleteProduct.call(this)" ><i class="iconfont icon-08" style = "color:red;"></i></a>&nbsp;
@@ -42,6 +41,7 @@
 	}
 
 	// 查询所有顾客id，放入搜索下拉框中
+	
 	// 在点击模态框显示的时候调用该函数
 	function addCategoryId(){
 		// 设置顾客的findAll请求地址
@@ -97,7 +97,7 @@
 		$.post(url,data,function(result){
 			if(result.status === 200){
 				$("#productModal").modal("hide");
-				reloadData();
+				loadData();
 			} else {
 				alert("接口异常");
 			}
@@ -130,7 +130,7 @@
           var data = "id="+id;
           $.get(url,data,function(result){
           	alert(result.message);
-          	reloadData();
+          	loadData();
           });
         }
     }
@@ -151,7 +151,7 @@
 	    		}
 	    	}
 	    	$.post(url,data,function(result){
-	            reloadData();
+	            loadData();
 	    	})
         }
     }
@@ -159,7 +159,7 @@
     // ======== 文档加载完毕后执行
 	$(function(){
 		//1.重载数据
-		reloadData();
+		loadData();
 
 		// 加载所有顾客id
 		addCategoryId();
@@ -224,7 +224,6 @@
 				<td>商品描述</td>
 				<td>价格</td>
 				<td>状态</td>
-				<td>照片</td>
 				<td>所属分类</td>
 				<td width="100">操作</td>
 			</tr>

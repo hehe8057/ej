@@ -22,6 +22,7 @@
 					<td class="text-center">`+item.id+`</td>
 					<td class="text-center">`+item.name+`</td>
 					<td class="text-center">`+item.num+`</td>
+					<td class="text-center"><img src="`+item.icon+`" alt=""></td>
 					<td class="text-center">`+item.parentId+`</td>
 					<td class="text-center">
 						<a href="javascript:void(0);" onclick="deleteCategory.call(this)" ><i class="iconfont icon-08" style = "color:red;"></i></a>&nbsp;
@@ -62,7 +63,9 @@
 		$.post(url,data,function(result){
 			if(result.status === 200){
 				$("#categoryModal").modal("hide");
+				alert(result.message);
 				reloadData();
+
 			} else {
 				alert("接口异常");
 			}
@@ -199,6 +202,7 @@
 				<td>ID</td>
 				<td>分类名称</td>
 				<td>数量</td>
+				<td>图标</td>
 				<td>订单ID</td>
 				<td width="100">操作</td>
 			</tr>
